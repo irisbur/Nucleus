@@ -22,10 +22,8 @@ def compress(text):
     return encoded
 
 
-if __name__ == "__main__":
-    file_name = "Samp1.bin"
+def lz_output(file_name):
     content = [f"{n:08b}" for n in open(file_name, "rb").read()]
-    # print(list(content))
     start = time()
     encoded = compress(content)
     print(time() - start)
@@ -34,4 +32,4 @@ if __name__ == "__main__":
         if len(encoded[i]) != 8:
             dis_vec.append(encoded[i][1])
             encoded[i] = str(encoded[i][0])
-
+    return encoded, dis_vec
