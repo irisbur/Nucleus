@@ -73,7 +73,7 @@ def Total_Gain(data, coding):
     print("Space usage after compression (in bits):", after_compression)
 
 
-def huffman_encoding(data):
+def compress(data):
     symbol_with_probs = count_frequencies(data)
     symbols = symbol_with_probs.keys()
     probabilities = symbol_with_probs.values()
@@ -113,7 +113,7 @@ def huffman_encoding(data):
     return encoded_output, nodes[0]
 
 
-def Huffman_Decoding(encoded_data, huffman_tree):
+def decompress(encoded_data, huffman_tree):
     tree_head = huffman_tree
     decoded_output = []
     for x in encoded_data:
@@ -132,19 +132,19 @@ def Huffman_Decoding(encoded_data, huffman_tree):
     return string
 
 
-""" First Test """
-initial_data = open('compressed.txt', 'r').read().split(', ')
-data = [s[1:-1] for s in initial_data]
-print(len(data))
-# print(data)
-encoding, tree = huffman_encoding(data)
-print("Encoded output", encoding)
-# print("Decoded Output", Huffman_Decoding(encoding, tree))
-
-""" Second Test """
-
-# f = open("demofile.txt", "r")
-
-# data = f.read()
-# print(data)
-# Huffman_Encoding(data)
+# """ First Test """
+# initial_data = open('compressed.txt', 'r').read().split(', ')
+# data = [s[1:-1] for s in initial_data]
+# print(len(data))
+# # print(data)
+# encoding, tree = huffman_encoding(data)
+# print("Encoded output", encoding)
+# # print("Decoded Output", Huffman_Decoding(encoding, tree))
+#
+# """ Second Test """
+#
+# # f = open("demofile.txt", "r")
+#
+# # data = f.read()
+# # print(data)
+# # Huffman_Encoding(data)
