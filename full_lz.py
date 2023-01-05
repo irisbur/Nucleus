@@ -56,4 +56,4 @@ def lz_output(file_name):
     return encoded, dis_vec
 
 
-lz_output("Samp2    .bin")
+# lz_output("Samp2    .bin")
