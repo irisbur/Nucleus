@@ -3,10 +3,10 @@ import full_lz
 
 
 def deflate_compress(filename):
+
     lengths_and_text, dis_vec = full_lz.lz_output(filename)
     print("Items in first list: " + str(len(lengths_and_text)))
     huff_lengths, tree = huffman.compress(lengths_and_text)
-    len(tree)
 
     # todo: compress tree
     encoded_tree = None

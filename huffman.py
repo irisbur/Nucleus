@@ -110,7 +110,7 @@ def compress(data):
     print("symbols with codes", huffman_encoding)
     Total_Gain(data, huffman_encoding)
     encoded_output = Output_Encoded(data, huffman_encoding)
-    return encoded_output, nodes[0]
+    return encoded_output, huffman_encoding
 
 
 def decompress(encoded_data, huffman_tree):
