@@ -1,5 +1,5 @@
 from time import time
-from cmpress_distances_vector import compress_distances_vector_to_bits, de_compress_distances_vector_from_bits
+
 
 def compress(text):
     encoded = []
@@ -41,7 +41,6 @@ def decompress(encoded, dis_vec):
             added += length - 1
             dis_index += 1
     return decoded
-
 
 def lz_output(file_name):
     content = [f"{n:08b}" for n in open(file_name, "rb").read()]
