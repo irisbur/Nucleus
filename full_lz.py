@@ -22,8 +22,24 @@ def compress(text):
     return encoded
 
 
+def decompress(encoded, dis_vec):
+    i = 0
+    dis_index = 0
+    decoded = []
+    for i in range(len(encoded)):
+        if len(encoded[i]) == 8:
+            decoded += [encoded[i]]
+        else:
+            length = int(encoded[i])
+            dis = dis_vec[dis_index]
+            for j in range(length):
+                decoded += [decoded[i - dis + j]]
+            dis_index += 1
+        i += 1
+    return decoded
+
 def lz_output(file_name):
-    content = [f"{n:08b}" for n in open(file_name, "rb").read()]
+    content = [f"{n:08b}" for n in open(file_name, "rb").read()][:120]
     start = time()
     encoded = compress(content)
     print(time() - start)
@@ -32,4 +48,14 @@ def lz_output(file_name):
         if len(encoded[i]) != 8:
             dis_vec.append(encoded[i][1])
             encoded[i] = str(encoded[i][0])
+
+    print(content)
+    print(encoded, dis_vec)
+    decoded = decompress(encoded, dis_vec)
+    print(decoded)
+    print(decoded == content)
+
     return encoded, dis_vec
+
+
+lz_output("Samp1.bin")
