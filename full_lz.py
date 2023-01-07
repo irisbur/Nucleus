@@ -27,16 +27,16 @@ from compress_distances_vector import *
 #
 
 def compress(text):
-    text = "".join(text)
+
     encoded = []
     i = 0
     dis_vec = []
     rows_dict = [dict() for _ in range(256)]
     while i < len(text):
         best_len, best_index = 0, i
-        k = 1
-        while i + k * 8 < len(text) and k < 255:
-            joined_bits = text[i: i + k * 8]
+        k = 0
+        while i + k < len(text) and k < 255:
+            joined_bits = "".join(text[i: i + k])
             if joined_bits in rows_dict[k]:
                 best_len = k
                 best_index = rows_dict[k][joined_bits]
@@ -48,10 +48,10 @@ def compress(text):
             encoded.append(str(best_len))
             dis_vec.append(best_index)
         else:
-            encoded.append(text[i: i + 8])
+            encoded.append(text[i])
             best_len = 0
 
-        i += best_len if best_len else 8
+        i += best_len if best_len else 1
 
     return encoded, dis_vec
 
