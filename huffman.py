@@ -24,7 +24,6 @@ def count_frequencies(words):
     return code_book
 
 
-
 codes = dict()
 
 
@@ -113,23 +112,52 @@ def compress(data):
     return encoded_output, huffman_encoding
 
 
-def decompress(encoded_data, huffman_tree):
-    tree_head = huffman_tree
-    decoded_output = []
-    for x in encoded_data:
-        if x == '1':
-            huffman_tree = huffman_tree.right
-        elif x == '0':
-            huffman_tree = huffman_tree.left
-        try:
-            if huffman_tree.left.symbol is None and huffman_tree.right.symbol is None:
-                pass
-        except AttributeError:
-            decoded_output.append(huffman_tree.symbol)
-            huffman_tree = tree_head
+def create_tree_from_dict(huffman_dict):
+    symbols = huffman_dict.keys()
 
-    string = ''.join([str(item) for item in decoded_output])
-    return string
+    nodes = []
+
+    # converting symbols and probabilities into huffman tree nodes
+    for symbol in symbols:
+        nodes.append(Node(huffman_dict.get(symbol), symbol))
+
+    while len(nodes) > 1:
+        # sort all the nodes in ascending order based on their binary value
+        nodes = sorted(nodes, key=lambda x: int(x.prob, 2))
+        # for node in nodes:
+        #      print(node.symbol, node.prob)
+
+        # pick 2 smallest nodes
+        right = nodes[0]
+        left = nodes[1]
+
+        left.code = 0
+        right.code = 1
+
+        # combine the 2 smallest nodes to create new node
+        newNode = Node(left.prob + right.prob, left.symbol + right.symbol, left, right)
+
+        nodes.remove(left)
+        nodes.remove(right)
+        nodes.append(newNode)
+
+    return nodes[0]
+
+
+def decompress(encoded_data, huffman_dict):
+    value_word_dict = {v: k for k, v in huffman_dict.items()}
+
+    decoded_data = ''
+    i = 0
+    while len(encoded_data) > 1:
+        if encoded_data[:i] in value_word_dict.keys():
+            decoded_data += value_word_dict[encoded_data[:i]]
+            encoded_data = encoded_data[i:]
+            i = 0
+        else:
+            i += 1
+
+    return decoded_data
 
 
 # """ First Test """
