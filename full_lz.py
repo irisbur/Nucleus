@@ -26,22 +26,22 @@ from compress_distances_vector import *
 #     return encoded, dis_vec
 #
 
-def compress(filename):
-    start = time()
-    content = [f"{n:08b}" for n in open(filename, "rb").read()]
+def compress(text):
+
+
     encoded = []
     i = 0
     dis_vec = []
     rows_dict = dict()
-    while i < len(content):
+    while i < len(text):
         best_len, best_index = 0, i
+        joined_bits = text[i]
         k = 1
-        joined_bits = content[i]
-        while i + k < len(content) and k < 255:
-            joined_bits += content[i + k]
+        while i + k < len(text) and k < 255:
+            joined_bits += text[i + k]
             if joined_bits in rows_dict:
                 best_len = k
-                best_index = rows_dict
+                best_index = rows_dict[joined_bits]
             else:
                 rows_dict[joined_bits] = i
             k += 1
@@ -50,11 +50,11 @@ def compress(filename):
             encoded.append(str(best_len))
             dis_vec.append(best_index)
         else:
-            encoded.append(content[i])
+            encoded.append(text[i])
             best_len = 0
 
         i += best_len if best_len else 1
-    print("comp time", time() - start)
+
     return encoded, dis_vec
 
 
@@ -76,7 +76,6 @@ def decompress(encoded, dis_vec):
             dis_index += 1
     return decoded
 
-
 def lz_output(file_name):
     content = [f"{n:08b}" for n in open(file_name, "rb").read()]
     start = time()
@@ -95,4 +94,4 @@ def lz_output(file_name):
     return encoded, dis_vec
 
 
-# lz_output("Samp3.bin")
+lz_output("Samp1.bin")
