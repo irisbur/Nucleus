@@ -92,4 +92,4 @@ def lz_output(file_name):
     return encoded, dis_vec
 
 
-lz_output("Samp1.bin")
+lz_output("Samp3.bin")
