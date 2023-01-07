@@ -20,7 +20,7 @@ def deflate_compress(filename):
     all_compressed_data = encoded_dist + encoded_huff_dict + huff_output
     num_zeros_to_pad = (8 - len(all_compressed_data) % 8) * '0' if (8 - len(all_compressed_data) % 8) != 8 else ''
     len_pad_byte = compress_distances_vector.pad(
-        compress_distances_vector.dem_to_bin(8-len(all_compressed_data) % 8), 8
+        compress_distances_vector.dem_to_bin(len(num_zeros_to_pad)), 8
     )
     # save to binary file.
     f = open(filename[:-4] + "_compressed.bin", "wb")
@@ -54,7 +54,9 @@ def deflate_decompress(filename):
 
     # decode to lz
     data = full_lz.decompress(decoded_huff_text, decoded_dists)
-    byte_data = [bytes(int(bits8, 2)) for bits8 in data]
+
+    byte_data = [int(bits8, 2).to_bytes(1, byteorder='big') for bits8 in data]
+
     f = open(filename + "_decompressed.bin", 'wb')
     print("Im here!!111")
     f.write(b''.join(byte_data))
@@ -62,10 +64,15 @@ def deflate_decompress(filename):
 
 
 def main():
-    for i in range(1, 5):
-        print(f"running file {i} now")
-        deflate_compress(f"Samp{i}.bin")
-        deflate_decompress(f"Samp{i}_compressed.bin")
+    # for i in range(2, 3):
+        # print(f"running file {i} now")
+        deflate_compress(f"Samp4.bin")
+        deflate_decompress(f"Samp4_compressed.bin")
+        # f1 = open(f"Samp2.bin", 'rb')
+        # f2 = open(f"Samp2_compressed.bin_decompressed.bin", 'rb')
+        # print(f1.read() == f2.read())
+        # f1.close()
+        # f2.close()
 
 
 if __name__ == '__main__':

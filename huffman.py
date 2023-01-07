@@ -147,11 +147,11 @@ def create_tree_from_dict(huffman_dict):
 def decompress(encoded_data, huffman_dict):
     value_word_dict = {v: k for k, v in huffman_dict.items()}
 
-    decoded_data = ''
+    decoded_data = []
     i = 0
     while len(encoded_data) > 1:
         if encoded_data[:i] in value_word_dict.keys():
-            decoded_data += value_word_dict[encoded_data[:i]]
+            decoded_data.append(value_word_dict[encoded_data[:i]])
             encoded_data = encoded_data[i:]
             i = 0
         else:
