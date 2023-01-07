@@ -1,28 +1,59 @@
 from time import time
 from compress_distances_vector import *
 
+
+# def compress(text):
+#     encoded = []
+#     i = 0
+#     dis_vec = []
+#     rows_dict = dict()
+#     while i < len(text):
+#         best_len, best_index = 0, i
+#         for j in range(i - 1, -1, -1):
+#             k = 0
+#             while i + k < len(text) and text[i + k] == text[j + k] and k < 255:
+#                 k += 1
+#             if k > best_len:
+#                 best_len = k
+#                 best_index = j
+#         if best_len >= 4:
+#             encoded.append(str(best_len))
+#             dis_vec.append(best_index)
+#         else:
+#             encoded.append(text[i])
+#             best_len = 0
+#         i += best_len if best_len else 1
+#     return encoded, dis_vec
+#
+
 def compress(text):
     encoded = []
     i = 0
     dis_vec = []
+    rows_dict = dict()
     while i < len(text):
         best_len, best_index = 0, i
-        for j in range(i - 1, -1, -1):
-            k = 0
-            while i + k < len(text) and text[i + k] == text[j + k] and k < 255:
-                k += 1
-            if k > best_len:
+        k = 0
+
+        while i + k < len(text) and k < 255:
+            joined_bits = "".join(text[i: i + k])
+            if joined_bits in rows_dict:
                 best_len = k
-                best_index = j
+                best_index = rows_dict[joined_bits]
+            else:
+                rows_dict[joined_bits] = i
+            k += 1
+
         if best_len >= 4:
             encoded.append(str(best_len))
             dis_vec.append(best_index)
         else:
             encoded.append(text[i])
             best_len = 0
-        i += best_len if best_len else 1
-    return encoded, dis_vec
 
+        i += best_len if best_len else 1
+
+    return encoded, dis_vec
 
 def decompress(encoded, dis_vec):
     i = 0
@@ -47,17 +78,17 @@ def lz_output(file_name):
     start = time()
     encoded, dis_vec = compress(content)
     print("lempel_ziv", time() - start)
-    # print(content)
-    # print(encoded, dis_vec)
+    # # print(content)
+    # # print(encoded, dis_vec)
     decoded = decompress(encoded, dis_vec)
-    compressed_vec = compress_distances_vector_to_bits(dis_vec)
-    print(len(encoded))
-    print(len(compressed_vec))
-    print(dis_vec == de_compress_distances_vector_from_bits(compressed_vec)[0])
-    print(decoded)
+    # compressed_vec = compress_distances_vector_to_bits(dis_vec)
+    # print(len(encoded))
+    # print(len(compressed_vec))
+    # print(dis_vec == de_compress_distances_vector_from_bits(compressed_vec)[0])
+    # print(decoded)
     print(decoded == content)
 
     return encoded, dis_vec
 
 
-# lz_output("Samp1.bin")
+lz_output("Samp1.bin")
