@@ -28,20 +28,22 @@ from compress_distances_vector import *
 
 def compress(text):
 
+
     encoded = []
     i = 0
     dis_vec = []
-    rows_dict = [dict() for _ in range(256)]
+    rows_dict = dict()
     while i < len(text):
         best_len, best_index = 0, i
-        k = 0
+        joined_bits = text[i]
+        k = 1
         while i + k < len(text) and k < 255:
-            joined_bits = "".join(text[i: i + k])
-            if joined_bits in rows_dict[k]:
+            joined_bits += text[i + k]
+            if joined_bits in rows_dict:
                 best_len = k
-                best_index = rows_dict[k][joined_bits]
+                best_index = rows_dict[joined_bits]
             else:
-                rows_dict[k][joined_bits] = i
+                rows_dict[joined_bits] = i
             k += 1
 
         if best_len >= 4:
@@ -92,4 +94,4 @@ def lz_output(file_name):
     return encoded, dis_vec
 
 
-lz_output("Samp3.bin")
+lz_output("Samp1.bin")
