@@ -1,5 +1,5 @@
 from time import time
-
+from compress_distances_vector import *
 
 def compress(text):
     encoded = []
@@ -47,17 +47,17 @@ def lz_output(file_name):
     start = time()
     encoded, dis_vec = compress(content)
     print("lempel_ziv", time() - start)
-    # # print(content)
-    # # print(encoded, dis_vec)
-    # decoded = decompress(encoded, dis_vec)
-    # compressed_vec = compress_distances_vector_to_bits(dis_vec)
-    # print(len(encoded))
-    # print(len(compressed_vec))
-    # print(dis_vec == de_compress_distances_vector_from_bits(compressed_vec)[0])
-    # # print(decoded)
-    # print(decoded == content)
+    # print(content)
+    # print(encoded, dis_vec)
+    decoded = decompress(encoded, dis_vec)
+    compressed_vec = compress_distances_vector_to_bits(dis_vec)
+    print(len(encoded))
+    print(len(compressed_vec))
+    print(dis_vec == de_compress_distances_vector_from_bits(compressed_vec)[0])
+    print(decoded)
+    print(decoded == content)
 
     return encoded, dis_vec
 
 
-# lz_output("Samp2.bin")
+# lz_output("Samp1.bin")

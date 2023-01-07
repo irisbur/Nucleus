@@ -1,6 +1,5 @@
 from math import log2
 
-
 def pad(num, to_bits_num):
     if len(num) < to_bits_num:
         return "0" * (to_bits_num - len(num)) + num
@@ -56,6 +55,4 @@ def de_compress_distances_vector_from_bits(bits):
         dis_vec.append(bin_to_dem(bits[index: index + int(log2(max_dis))]))
         i += 1
         index += int(log2(max_dis))
-    return dis_vec, length + 16
-
-
+    return dis_vec, index
