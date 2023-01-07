@@ -56,6 +56,6 @@ def de_compress_distances_vector_from_bits(bits):
         dis_vec.append(bin_to_dem(bits[index: index + int(log2(max_dis))]))
         i += 1
         index += int(log2(max_dis))
-    return dis_vec, length + 16
+    return dis_vec, index + 16
 
 
