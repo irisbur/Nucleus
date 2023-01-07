@@ -1,5 +1,6 @@
 from math import log2
 
+
 def pad(num, to_bits_num):
     if len(num) < to_bits_num:
         return "0" * (to_bits_num - len(num)) + num

@@ -4,7 +4,6 @@ from bitarray import bitarray
 import compress_distances_vector
 import compress_tree
 from time import time
-import subprocess
 
 
 DIST_BITS_NUM = 16
@@ -26,7 +25,7 @@ def deflate_compress(filename):
     len_pad_byte = compress_distances_vector.pad(
         compress_distances_vector.dem_to_bin(len(num_zeros_to_pad)), 8
     )
-    print("comp time", time() - start)
+    # print("comp time", time() - start)
     # save to binary file.
     f = open(filename[:-4] + "_compressed.bin", "wb")
     print(len(len_pad_byte + num_zeros_to_pad + all_compressed_data))
@@ -35,7 +34,6 @@ def deflate_compress(filename):
 
 
 def deflate_decompress(filename):
-    # todo: de-comp dist-tree-huff
     f = open(filename, "rb")
     bytes_data = ''.join([f"{n:08b}" for n in f.read()])
 
@@ -62,22 +60,15 @@ def deflate_decompress(filename):
 
     byte_data = [int(bits8, 2).to_bytes(1, byteorder='big') for bits8 in data]
 
-    f = open(filename + "_decompressed.bin", 'wb')
+    f = open(filename[:-4] + "_decompressed.bin", 'wb')
     print("Im here!!111")
     f.write(b''.join(byte_data))
     f.close()
 
 
 def main():
-    # for i in range(1, 5):
-    #     print(f"running file {i} now")
-        deflate_compress(f"Samp2.bin")
-        # deflate_decompress(f"Samp2_compressed.bin")
-        # f1 = open(f"Samp2.bin", 'rb')
-        # f2 = open(f"Samp2_compressed.bin_decompressed.bin", 'rb')
-        # print(f1.read() == f2.read())
-        # f1.close()
-        # f2.close()
+    deflate_compress(f"Samp4.bin")
+    deflate_decompress(f"Samp4_compressed.bin")
 
 
 if __name__ == '__main__':
