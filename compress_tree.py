@@ -55,7 +55,7 @@ def compress_tree(dict_tree):
             jumps.append(i)
             key_len += 1
         bits_string += sort_by_val[i][0] + sort_by_val[i][1]
-    print(jumps)
+    # print(jumps)
     jumps_in_10bits = "".join([pad(dem_to_bin(x), JUMPS_BIT) for x in jumps])
     jumps_in_10bits = pad_from_right(jumps_in_10bits, JUMPS_BIT * JUMPS_BIT)
     return length + jumps_in_10bits + bits_string
@@ -85,7 +85,7 @@ def de_compress_tree(bits):
         tree_dict[key] = word
         i += 1
         index += KEY_EXTENDED_LEN + key_len
-    return tree_dict, index + LENGTH_LEN
+    return tree_dict, index
 
 
 # x = compress_tree(d)
