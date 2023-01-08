@@ -12,7 +12,7 @@ PADDING_BITS_NUM_SIZE = 8
 
 
 def deflate_compress(filename):
-    start = time()
+    # start = time()
     lengths_and_text, dis_vec = full_lz.compress(filename)
 
     huff_output, huffman_encoding = huffman.compress(lengths_and_text)
@@ -25,18 +25,12 @@ def deflate_compress(filename):
     len_pad_byte = compress_distances_vector.pad(
         compress_distances_vector.dem_to_bin(len(num_zeros_to_pad)), 8
     )
-    print("comp time", time() - start)
+    # print("comp time", time() - start)
     # save to binary file.
     f = open(filename[:-4] + "_compressed.bin", "wb")
     print("compressed file size: " + str(len(len_pad_byte + num_zeros_to_pad + all_compressed_data)/8))
     f.write(bitarray(len_pad_byte + num_zeros_to_pad + all_compressed_data))
     f.close()
-
-
-def huff_compress(filename):
-    data = [f"{n:08b}" for n in open(filename, "rb").read()]
-    encoded_output, huffman_encoding = huffman.compress(data)
-    print("only huff out " + str(len(encoded_output)/8))
 
 
 def deflate_decompress(filename):
