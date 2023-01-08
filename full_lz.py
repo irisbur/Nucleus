@@ -1,17 +1,19 @@
+
+
 def compress(filename):
-    text = [f"{n:08b}" for n in open(filename, "rb").read()]
+    list_of_srings = [f"{n:08b}" for n in open(filename, "rb").read()]
     encoded = []
     i = 0
     dis_vec = []
     rows_dict = dict()
-    while i < len(text):
+    while i < len(list_of_srings):
         best_len, best_index = 0, i
-        joined_bits = text[i]
+        joined_bits = list_of_srings[i]
         k = 1
-        while i + k < len(text) and k < 255:
-            joined_bits += text[i + k]
+        while i + k < len(list_of_srings) and k < 255:
+            joined_bits += list_of_srings[i + k]
             if joined_bits in rows_dict:
-                best_len = k
+                best_len = k + 1
                 best_index = rows_dict[joined_bits]
             else:
                 rows_dict[joined_bits] = i
@@ -21,8 +23,18 @@ def compress(filename):
             encoded.append(str(best_len))
             dis_vec.append(best_index)
         else:
-            encoded.append(text[i])
+            encoded.append(list_of_srings[i])
             best_len = 0
+
+        if best_len != 0:
+            for index in range(i + 1, i + best_len):
+                joined_bits = ""
+                t = 0
+                while index + t < len(list_of_srings) and t < 255:
+                    joined_bits += list_of_srings[index + t]
+                    if joined_bits not in rows_dict:
+                        rows_dict[joined_bits] = index
+                    t += 1
 
         i += best_len if best_len else 1
 

@@ -33,6 +33,12 @@ def deflate_compress(filename):
     f.close()
 
 
+def huff_compress(filename):
+    data = [f"{n:08b}" for n in open(filename, "rb").read()]
+    encoded_output, huffman_encoding = huffman.compress(data)
+    print("only huff out " + str(len(encoded_output)/8))
+
+
 def deflate_decompress(filename):
     f = open(filename, "rb")
     bytes_data = ''.join([f"{n:08b}" for n in f.read()])
@@ -70,6 +76,7 @@ def main():
     for i in range(1, 5):
         deflate_compress(f"Samp{i}.bin")
         deflate_decompress(f"Samp{i}_compressed.bin")
+    # huff_compress("Samp1.bin")
 
 
 if __name__ == '__main__':
