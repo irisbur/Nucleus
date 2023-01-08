@@ -30,7 +30,6 @@ def compress(filename):
 
 
 def decompress(encoded, dis_vec):
-    i = 0
     dis_index = 0
     decoded = []
     added = 0
@@ -41,7 +40,6 @@ def decompress(encoded, dis_vec):
             length = int(encoded[i])
             dis = dis_vec[dis_index]
             for j in range(length):
-                # decoded += [decoded[i + added - dis + j]]
                 decoded += [decoded[dis + j]]
             added += length - 1
             dis_index += 1

@@ -24,10 +24,7 @@ def count_frequencies(words):
     return code_book
 
 
-codes = dict()
-
-
-def Calculate_Codes(node, val=''):
+def calculate_codes(node, codes, val=''):
     """
     A helper function to print the codes of symbols by traveling Huffman Tree
     """
@@ -35,9 +32,9 @@ def Calculate_Codes(node, val=''):
     new_val = val + str(node.code)
 
     if node.left:
-        Calculate_Codes(node.left, new_val)
+        calculate_codes(node.left, codes, new_val)
     if node.right:
-        Calculate_Codes(node.right, new_val)
+        calculate_codes(node.right, codes, new_val)
 
     if not node.left and not node.right:
         codes[node.symbol] = new_val
@@ -80,7 +77,7 @@ def compress(data):
         nodes.remove(right)
         nodes.append(newNode)
 
-    huffman_encoding = Calculate_Codes(nodes[0])
+    huffman_encoding = calculate_codes(nodes[0], dict())
     encoded_output = encode_data(data, huffman_encoding)
     return encoded_output, huffman_encoding
 
